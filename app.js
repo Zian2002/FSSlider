@@ -46,6 +46,7 @@ slider.addEventListener("wheel", function(e){
 slider.addEventListener("scroll", function() {
     displayProgress();
     displayControlButton();
+    clearInterval(interval);
 })
 
 window.addEventListener("resize", debounceFn(function(){
