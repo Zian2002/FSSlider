@@ -19,6 +19,7 @@ const nextButton = document.querySelector(".next-button");
 displaySlider(data)
 
 slider.addEventListener("click", function(e){
+    clearInterval(interval);
     console.log(e.target);
 })
 
@@ -48,6 +49,8 @@ slider.addEventListener("scroll", function() {
     displayControlButton();
     clearInterval(interval);
 })
+
+window.addEventListener("")
 
 window.addEventListener("resize", debounceFn(function(){
     slider.style = "";
