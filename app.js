@@ -50,8 +50,6 @@ slider.addEventListener("scroll", function() {
     clearInterval(interval);
 })
 
-window.addEventListener("")
-
 window.addEventListener("resize", debounceFn(function(){
     slider.style = "";
     let item = document.querySelector(".slider-item");
