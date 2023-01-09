@@ -90,7 +90,7 @@ i.disabled {
 
 .slider {
   display: grid;
-  grid-template-columns: repeat(4, 450px);
+  grid-template-columns: repeat(4, 400px);
   grid-template-rows: repeat(2, 300px);
   grid-gap: 20px;
   overflow-y: auto;
