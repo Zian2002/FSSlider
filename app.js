@@ -89,7 +89,7 @@ slider.addEventListener("wheel", function(e){
         canScroll = false;
         setTimeout(() => {
         canScroll = true;
-        }, 200);
+        }, 250);
     }else {
         this.scrollLeft += e.deltaY;
     }
