@@ -18,9 +18,21 @@ const nextButton = document.querySelector(".next-button");
 
 displaySlider(data)
 
+let interval = setInterval(function(){
+    slider.scrollLeft += itemWidth + gap;
+    displayProgress()
+    if (slider.scrollLeft >= slider.scrollWidth - slider.clientWidth){
+        slider.scrollLeft = 0;
+    }
+}, 3000);
+
 slider.addEventListener("click", function(e){
-    clearInterval(interval);
-    console.log(e.target);
+    // console.log(e.target);
+    if (e.target.classList.contains("slider-item")){
+        console.log(true);
+        clearInterval(interval);
+    }
+    // window.open("https://www.google.com.vn/", "_blank");
 })
 
 prevButton.addEventListener("click", function(e) {
@@ -37,17 +49,56 @@ nextButton.addEventListener("click", function(e) {
     clearInterval(interval);
 })
 
+let canScroll = true;
+// slider.addEventListener("wheel", function(e){
+
+//     if(getDeviceType() === "desktop" && window.innerWidth > 1023.98) {
+//         e.preventDefault();
+//         if (!canScroll)
+//         return;
+//         if (e.deltaY < 0)
+//             slider.scrollLeft -= itemWidth + gap ;
+//         else 
+//             slider.scrollLeft += itemWidth + gap;
+//         clearInterval(interval);
+//         canScroll = false;
+//         setTimeout(() => {
+//         canScroll = true;
+//         }, 200);
+//     }else{
+//         e.preventDefault();
+//         console.log("vuot");
+//         if (e.deltaY < 0)
+//             slider.scrollLeft -= itemWidth + gap ;
+//         else 
+//             slider.scrollLeft += itemWidth + gap;
+//         clearInterval(interval);
+        
+//     }
+// })
+
 slider.addEventListener("wheel", function(e){
-    if(getDeviceType() === "desktop" && window.innerWidth > 1023.98) 
+    if(getDeviceType() === "desktop" && window.innerWidth > 1023.98) {
         e.preventDefault();
-    this.scrollLeft += e.deltaY;
+        if (!canScroll)
+        return;
+        if (e.deltaY < 0)
+            slider.scrollLeft -= itemWidth + gap ;
+        else 
+            slider.scrollLeft += itemWidth + gap;
+        canScroll = false;
+        setTimeout(() => {
+        canScroll = true;
+        }, 200);
+    }else {
+        this.scrollLeft += e.deltaY;
+    }
     clearInterval(interval);
 })
 
 slider.addEventListener("scroll", function() {
     displayProgress();
     displayControlButton();
-    clearInterval(interval);
 })
 
 window.addEventListener("resize", debounceFn(function(){
@@ -60,10 +111,10 @@ window.addEventListener("resize", debounceFn(function(){
 function createSliderItem({id, src, title, desc}){
     const template = 
     `<div class="slider-item" data-id="${id}">
-        <img src="${src}" alt="">
-        <div class="content">
-            <h2 class="title">${title}</h2>
-            <p class="desc">${desc}</p>
+        <img src="${src}" alt="" class="slide-item-image">
+        <div class="slide-item-content">
+            <h2 class="slide-item-title">${title}</h2>
+            <p class="slide-item-desc">${desc}</p>
         </div>
     </div>`;
     slider.insertAdjacentHTML("beforeend", template);
@@ -88,16 +139,6 @@ function displayProgress(){
     let length = Math.round((pos / width) * 100);
     progress.style.width = `${length}%`;
 }
-
-
-
-let interval = setInterval(function(){
-    slider.scrollLeft += itemWidth + 20;
-    displayProgress()
-    if (slider.scrollLeft >= slider.scrollWidth - slider.clientWidth){
-        slider.scrollLeft = 0;
-    }
-}, 3000);
 
 function displaySlider(data){
     slider.style = `grid-template-columns: repeat(${Math.round(data.length / 2)}, ${itemWidth}px);`;
